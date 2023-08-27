@@ -46,7 +46,9 @@ prodsRouter.put('/:id', async (req,res) => {
 
 prodsRouter.delete('/:id', async (req,res) => {
     const { id } = req.params
-    if(id != -1){
+    const productos = await productManager.getProducts()
+    const producto = productos.find(prod => prod.id === parseInt(id))
+    if(producto){
         await productManager.deleteProduct(parseInt(id))
         res.status(200).send(`Producto eliminado`)
     } else {
